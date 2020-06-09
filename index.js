@@ -100,6 +100,8 @@ app.get("/", async (req, res) => {
 
 		console.log(data);
 
+		res.header("Content-Type", "image/svg+xml");
+		res.header("Cache-Control", "max-age=43200");
 		res.send(renderSVG(data, width));
 		// res.send(response.data);
 	} catch (e) {

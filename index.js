@@ -42,9 +42,8 @@ function renderSVG(data, width) {
     }" width="${imgSize}" height="${imgSize}" x="${padding}" y="${padding}" clip-path="url(#clipPath)" />
       <text x="${textX}" y="${
     textFirstY + 20
-    }" font-size="20" font-family="-apple-system, BlinkMacSystemFont, Helvetica, sans-serif">${
-    data.title
-    }</text>
+    }" font-size="20" font-family="-apple-system, BlinkMacSystemFont, Helvetica, sans-serif">
+     <![CDATA[${data.title}]]></text>
       <text x="${textX}" y="${
     textFirstY + 43
     }" font-size="15" font-family="-apple-system, BlinkMacSystemFont, Helvetica, sans-serif">v${
@@ -60,7 +59,7 @@ function renderSVG(data, width) {
 }
 app.get("/", async (req, res) => {
   try {
-    const { id, country = "us", width = 255 } = req.query;
+    const { id, country = "us", width = 400 } = req.query;
     const response = await axios.get(
       `https://play.google.com/store/apps/details?id=${id}&gl=${country}`
     );
@@ -99,7 +98,7 @@ app.get("/", async (req, res) => {
       latestVersion: latestVersionNode.stringValue,
     };
 
-    // console.log(data);
+    console.log(data);
 
     res.header("Content-Type", "image/svg+xml");
     res.header("Cache-Control", "max-age=43200");
@@ -111,6 +110,6 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 3001, () => {
   console.log("server started");
 });

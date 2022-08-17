@@ -45,11 +45,6 @@ function renderSVG(data, width) {
     }" font-size="20" font-family="-apple-system, BlinkMacSystemFont, Helvetica, sans-serif">
      <![CDATA[${data.title}]]></text>
       <text x="${textX}" y="${
-    textFirstY + 43
-    }" font-size="15" font-family="-apple-system, BlinkMacSystemFont, Helvetica, sans-serif">v${
-    data.latestVersion
-    } - ${data.lastUpdated}</text>
-      <text x="${textX}" y="${
     textFirstY + 66
     }" font-size="15" font-family="-apple-system, BlinkMacSystemFont, Helvetica, sans-serif">${
     data.rating
@@ -66,28 +61,31 @@ app.get("/", async (req, res) => {
     const dom = new JSDOM(response.data);
     const document = dom.window.document;
 
+    console.log(document)
+
     //XPATHS
     const titleXpath =
-      "/html/body/div[1]/div[4]/c-wiz/div/div[2]/div/div/main/c-wiz[1]/c-wiz[1]/div/div[2]/div/div[1]/c-wiz[1]/h1/span";
+      "/html/body/c-wiz[2]/div/div/div[1]/div[1]/div/div/c-wiz/div[2]/div[1]/div/h1/span";
     const ratingXpath =
-      "/html/body/div/div[4]/c-wiz/div/div[2]/div/div/main/c-wiz[2]/div[1]/c-wiz/div[1]/div[1]";
+      "/html/body/c-wiz[2]/div/div/div[1]/div[2]/div/div[1]/c-wiz[4]/section/div/div/div[1]/div/div/div[1]/div[1]";
     const imageXpath =
-      "/html/body/div[1]/div[4]/c-wiz/div/div[2]/div/div/main/c-wiz[1]/c-wiz[1]/div/div[1]/div/img";
+      "/html/body/c-wiz[2]/div/div/div[1]/div[1]/div/div/c-wiz/div[1]/img[1]";
     const lastUpdatedXpath =
-      "/html/body/div/div[4]/c-wiz/div/div[2]/div/div/main/c-wiz[3]/div[1]/div[2]/div/div[1]/span/div/span";
+      "/html/body/c-wiz[2]/div/div/div[1]/div[2]/div/div[1]/c-wiz[2]/div/section/div/div[2]/div/div[2]";
     const totalRatingsXpath =
-      "/html/body/div/div[4]/c-wiz/div/div[2]/div/div/main/c-wiz[2]/div[1]/c-wiz/div[1]/span";
+      "/html/body/c-wiz[2]/div/div/div[1]/div[1]/div/div/c-wiz/div[2]/div[2]/div/div/div[1]/div[2]";
     const latestVersionXpath =
       "/html/body/div/div[4]/c-wiz/div/div[2]/div/div/main/c-wiz[3]/div[1]/div[2]/div/div[4]/span/div/span";
 
 
+      const key = "/html/body/c-wiz[2]/div/div/div[1]/div[1]/div/div/c-wiz/div[2]/div[1]/div/h1/span"
     //Evaluated Nodes
     const titleNode = evaluateDocument(document, titleXpath, 2);
     const ratingNode = evaluateDocument(document, ratingXpath, 2);
     const lastUpdatedNode = evaluateDocument(document, lastUpdatedXpath, 2);
     const imageNode = evaluateDocument(document, imageXpath, 9);
     const totalRatingsNode = evaluateDocument(document, totalRatingsXpath, 2);
-    const latestVersionNode = evaluateDocument(document, latestVersionXpath, 2);
+    const latestVersionNode = 'evaluateDocument(document, latestVersionXpath, 2)';
 
     const data = {
       title: titleNode.stringValue,
@@ -95,7 +93,7 @@ app.get("/", async (req, res) => {
       image: await getBase64Png(imageNode.singleNodeValue.attributes.src.value),
       lastUpdated: lastUpdatedNode.stringValue,
       totalRatings: totalRatingsNode.stringValue,
-      latestVersion: latestVersionNode.stringValue,
+      latestVersion: "latestVersionNode.stringValue",
     };
 
     console.log(data);
